@@ -1,6 +1,6 @@
 # Welcome
 
-We are excited to have you with us for online Math 126 this quarter! We are moving to a new format, based on open-source materials. This site is in constant development. Look for improvements every day. Visit our (GitHub site)[](https://github.com/maxlieblich/math126), feel free to open new issues, send us pull requests, etc.
+We are excited to have you with us for online Math 126 this quarter! We are moving to a new format, based on open-source materials. This site is in constant development. Look for improvements every day. Visit our [GitHub site]((https://github.com/maxlieblich/math126), feel free to open new issues, send us pull requests, etc.
 
 ### Lecture list
 
