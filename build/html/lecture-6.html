@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" href="pandoc.css">
+  <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+  <script src="js/jquery.min.js" type="text/javascript"></script>
+  <script src="js/three.min.js" type="text/javascript"></script>
+  <script src="js/ArrowHelperFixed.js" type="text/javascript"></script>
+  <script src="js/marchingcubesraw.js" type="text/javascript"></script>
+  <script src="js/marchingtetrahedraraw.js" type="text/javascript"></script>
+  <script src="js/surfacenetsraw.js" type="text/javascript"></script>
+  <script src="js/MathScene.js" type="text/javascript"></script>
+  <script src="js/MathModel.js" type="text/javascript"></script>
+  <script src="js/TrackballControls.js" type="text/javascript"></script>
+  <script src="js/OrbitControls.js" type="text/javascript"></script>
+  <script src="js/Detector.js" type="text/javascript"></script>
+  <script src="js/SubdivisionModifier.js" type="text/javascript"></script>
+  <script src="js/dat.gui.min.js" type="text/javascript"></script>
+</head>
+<body>
+<h1 id="surfaces">Surfaces</h1>
+<h2 id="vague-question">Vague question</h2>
+<h3 id="how-can-we-relate-equations-to-the-shapes-of-their-zero-loci">How can we relate equations to the shapes of their zero loci?</h3>
+<h2 id="a-menagerie-of-shapes">A menagerie of shapes</h2>
+Cone: <span class="math">\(x^2+y^2=z^2\)</span>
+<div id="cone">
+<img src="media/lecture-6-cone.png"></img>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+(function() {
+  var scene = new MathScene("cone");
+  var f = function (x, y, z){
+    return x*x + y*y - z*z;
+  }
+  scene.camera.position.set(8, 8, 4);
+  var surface = new MarchingCubesModel({func: f, resolution: 150, material: MathScene.UWMaterial.clone()});
+  surface.embedInScene(scene);
+  scene.render();
+}());
+//]]>
+</script>
+
+
+<h2 id="a-menagerie-of-shapes-1">A menagerie of shapes</h2>
+Freaky “cylinder”: <span class="math">\(y^2=x^2(x-1)\)</span>
+<div id="cylinder">
+<img src="media/lecture-6-cylinder.png"></img>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+(function() {
+  var scene = new MathScene("cylinder");
+  var f = function (x, y, z){
+    return y*y - x*x*(x-1);
+  }
+  scene.camera.position.set(8, 8, 4);
+  var surface = new MarchingCubesModel({func: f, resolution: 150, material: MathScene.UWMaterial.clone()});
+  surface.embedInScene(scene);
+  scene.render();
+}());
+//]]>
+</script>
+
+
+
+<h2 id="a-menagerie-of-shapes-2">A menagerie of shapes</h2>
+Ellipsoid: <span class="math">\(\frac{1}{2}x^2+\frac{1}{3}y^2+z^2=1\)</span>
+<div id="ellipsoid">
+<img src="media/lecture-6-ellipsoid.png"></img>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+(function () {
+  var scene = new MathScene("ellipsoid");
+  var f = function (x, y, z){
+    return 1/2*x*x + 1/3 * y*y + z*z - 1;
+  }
+  scene.camera.position.set(8, 8, 4);
+  var surface = new MarchingCubesModel({func: f, resolution: 150, material: MathScene.UWMaterial.clone()});
+  surface.embedInScene(scene);
+  scene.render();
+}());
+//]]>
+</script>
+
+
+<h2 id="a-menagerie-of-shapes-3">A menagerie of shapes</h2>
+Hyperbolic paraboloid: <span class="math">\(\frac{1}{9}x^2-\frac{1}{4}y^2=z\)</span>
+<div id="hyp-par">
+<img src="media/lecture-6-hyp-par.png"></img>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+(function () {
+  var scene = new MathScene("hyp-par");
+  var f = function (x, y, z){
+    return 1/9 * x*x - 1/4 * y*y - z;
+  }
+  scene.camera.position.set(8, 8, 4);
+  var surface = new MarchingCubesModel({func: f, resolution: 150, material: MathScene.UWMaterial.clone()});
+  surface.embedInScene(scene);
+  scene.render();
+}());
+//]]>
+</script>
+
+
+<h2 id="a-menagerie-of-shapes-4">A menagerie of shapes</h2>
+Elliptic paraboloid: <span class="math">\(\frac{1}{9}x^2+\frac{1}{4}y^2=z\)</span>
+<div id="ell-par">
+<img src="media/lecture-6-ell-par.png"></img>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+(function () {
+  var scene = new MathScene("ell-par");
+  var f = function (x, y, z){
+    return 1/9 * x*x + 1/4 * y*y - z;
+  }
+  scene.camera.position.set(16, 16, 8);
+  scene.cameraControls.target.set(0, 0, 6)
+  var surface = new MarchingCubesModel({
+    func: f,
+    resolution: 150,
+    xmin: -10,
+    xmax: 10,
+    ymin: -10,
+    ymax: 10,
+    zmin: 0,
+    zmax: 10, material: MathScene.UWMaterial.clone()});
+    surface.embedInScene(scene);
+    scene.render();
+  }());
+//]]>
+</script>
+
+
+<h2 id="key-idea">Key idea</h2>
+<ul>
+<li>Slice the shape with planes and reassemble the pieces.</li>
+<li>This idea recurs throughout the study of geometry (even by professionals!).</li>
+<li>Subdividing, solving, reassembling is also how computers graph these things.</li>
+</ul>
+<h2 id="example-frac19x2frac14y2z">Example: <span class="math">\(\frac{1}{9}x^2+\frac{1}{4}y^2=z\)</span></h2>
+<p>We can make a horizontal trace (horizontal slice) at <span class="math">\(z=6\)</span>.</p>
+Geometrically, we are intersecting the surface with a horizontal plane.
+<div id="horizontal-trace-1">
+<img src="lecture-6-horizontal-trace-1"></img>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+(function () {
+  var scene = new MathScene("horizontal-trace-1");
+  var f = function (x, y, z){
+    return 1/9 * x*x + 1/4 * y*y - z;
+  }
+  scene.camera.position.set(16, 16, 8);
+  scene.cameraControls.target.set(0, 0, 6);
+  var surface = new MarchingCubesModel({
+    func: f,
+    resolution: 150,
+    xmin: -10,
+    xmax: 10,
+    ymin: -10,
+    ymax: 10,
+    zmin: 0,
+    zmax: 10, material: MathScene.UWMaterial.clone()});
+    surface.embedInScene(scene);
+  var tracePlaneGeom = new THREE.PlaneGeometry(20, 20);
+  var tracePlane = new THREE.Mesh(tracePlaneGeom, new THREE.MeshNormalMaterial({side: THREE.DoubleSide}));
+  tracePlane.position.set(0, 0, 6);
+  scene.scene.add(tracePlane);
+  scene.render();
+}());
+//]]>
+</script>
+<p>To calculate this algebraically:</p>
+<ul>
+<li>First, set <span class="math">\(z=6\)</span> in the equation to find a curve to plot: <span class="math">\(\frac{1}{9}x^2+\frac{1}{4}y^2=6.\)</span></li>
+<li>This will be an ellipse. (For which values of <span class="math">\(z\)</span> is this an ellipse?)</li>
+<li>We can plot the ellipse in a plane to visualize this slice. We can vary the value of <span class="math">\(z\)</span> and see how the horizontal traces vary. For the sake of visualization, we are plotting plane at its corresponding height over the <span class="math">\(xy\)</span>-plane, but the “horizontal trace” is the red curve, <strong>viewed simply as a curve in the plane, not in space</strong>.</li>
+</ul>
+<div id="horizontal-trace-2">
+<img src="lecture-6-horizontal-trace-2"></img>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+(function () {
+  var scene = new MathScene("horizontal-trace-2");
+  scene.camera.position.set(16, 16, 8);
+  scene.cameraControls.target.set(0, 0, 6);
+
+  var x = function (z){
+    return function (t){
+      return 3 * Math.sqrt(z) * Math.cos(2 * Math.PI * t);
+    }
+  }
+
+  var y = function (z){
+    return function (t){
+      return 2 * Math.sqrt(z) * Math.sin(2 * Math.PI * t);
+    }
+  }
+
+  var z = function (z) { 
+    return function (t){
+      return z; 
+    }
+  }
+
+  var trace = new ParametricPathModel(
+    x(6), y(6), z(6), [0, 1.01], 0, 100
+  );
+
+  trace.embedInScene(scene);
+
+  trace.redraw = function (h) {
+    trace.x = x(h);
+    trace.y = y(h);
+    trace.z = z(h)
+    tracePlane.position.set(0, 0, h-0.01);
+    scene.scene.remove(trace.path);
+    trace.generate();
+    trace.embedObjects();
+    scene.render();
+  }
+
+  trace.level = 6;
+
+  var levelControl = scene.gui.add(trace, "level", 0, 10).step(0.05);
+  levelControl.onChange(function(value){
+    trace.redraw(value);
+  });
+
+  var tracePlaneGeom = new THREE.PlaneGeometry(20, 20);
+  var tracePlane = new THREE.Mesh(tracePlaneGeom, MathScene.UWMaterial.clone());
+  tracePlane.position.set(0, 0, 6-0.1);
+  scene.scene.add(tracePlane);
+  scene.gui.open();
+  scene.render();
+}());
+//]]>
+</script>
+
+
+<h2 id="example-frac19x2frac14y2z-1">Example: <span class="math">\(\frac{1}{9}x^2+\frac{1}{4}y^2=z\)</span></h2>
+<p>We can also make a vertical trace (vertical slice) at <span class="math">\(y=0\)</span>.</p>
+<h2 id="example-frac19x2frac14y2z-2">Example: <span class="math">\(\frac{1}{9}x^2+\frac{1}{4}y^2=z\)</span></h2>
+<p>We can also make a vertical trace (vertical slice) at <span class="math">\(y=0\)</span>.</p>
+<h2 id="example-frac19x2frac14y2z-3">Example: <span class="math">\(\frac{1}{9}x^2+\frac{1}{4}y^2=z\)</span></h2>
+<p>We can make a vertical trace (vertical slice) at <span class="math">\(y=0\)</span>.</p>
+<ul>
+<li>Equation for the curve in the vertical plane: <span class="math">\[\frac{1}{9}x^2=z.\]</span></li>
+<li>What shape is this?</li>
+<li>What shape will a general vertical trace have?</li>
+</ul>
+<h2 id="sketching-the-shape">Sketching the shape</h2>
+<ul>
+<li>Choose some horizontal traces and sketch them</li>
+<li>Choose some vertical traces and sketch them</li>
+<li>Hope for the best</li>
+</ul>
+<h2 id="demonstration">Demonstration</h2>
+<p>Let’s try the equation <span class="math">\(x^2+y-z=0\)</span>.</p>
+<ul>
+<li>General horizontal trace: <span class="math">\(y=-x^2+a\)</span>, <span class="math">\(a\)</span> a constant.</li>
+<li>General <span class="math">\(xz\)</span>-plane vertical trace: <span class="math">\(z=x^2+b\)</span>, <span class="math">\(b\)</span> a constant.</li>
+<li>General <span class="math">\(yz\)</span>-plane vertical trace: <span class="math">\(z=y+c\)</span>, <span class="math">\(c\)</span> a constant.</li>
+<li>Draw some!</li>
+</ul>
+<h2 id="demonstration-1">Demonstration</h2>
+<h3 id="final-assembled-product">Final assembled product</h3>
+<p>Cosmic taco: <span class="math">\(x^2+y-z=0\)</span>.</p>
+<h2 id="practice">Practice</h2>
+<ul>
+<li>Calculate horizontal and vertical traces for the hyperbolic paraboloid: <span class="math">\(\frac{1}{9}x^2-\frac{1}{4}y^2=z\)</span></li>
+<li>How do the traces help you to sketch the object?</li>
+<li>How do the traces help you to tell objects apart?</li>
+</ul>
+<h2 id="new-shapes-to-consider">New shapes to consider</h2>
+<p>Apply the techniques we’ve been discussing to to draw sketches of the solutions to these equations in three variables.</p>
+<ul>
+<li><span class="math">\(x^2+y^2-z^2=1\)</span></li>
+<li><span class="math">\(z^2-x^2-y^2=1\)</span></li>
+<li><span class="math">\(x^2+y^2=1\)</span></li>
+<li><span class="math">\(x^2-2x+y^2-z^2=0\)</span></li>
+</ul>
+</body>
+</html>
