@@ -2,7 +2,8 @@
 (function() {
   var IsoCurve, MarchingCubesModel, MathModel, ParametricPathModel, PlaneShadowModel, VectorModel,
     __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   MathModel = (function() {
     function MathModel() {}
@@ -320,6 +321,7 @@
 
     function MarchingCubesModel(_arg) {
       this.func = _arg.func, this.xmin = _arg.xmin, this.xmax = _arg.xmax, this.ymin = _arg.ymin, this.ymax = _arg.ymax, this.zmin = _arg.zmin, this.zmax = _arg.zmax, this.resolution = _arg.resolution, this.smoothingLevel = _arg.smoothingLevel, this.material = _arg.material, this.name = _arg.name, this.algorithm = _arg.algorithm;
+      this.embedObjects = __bind(this.embedObjects, this);
       if (this.xmin == null) {
         this.xmin = -3.00;
       }
@@ -361,7 +363,35 @@
     }
 
     MarchingCubesModel.prototype.embedObjects = function() {
-      this.march_async(false, this.algorithm);
+      this.march_async(false, this.algorithm, this.embedCallback);
+      return null;
+    };
+
+    MarchingCubesModel.prototype.embedCallback = function() {
+      var model, old_calc;
+      model = this;
+      old_calc = model.mathScene.calc;
+      model.mathScene.calc = function(t) {
+        if (model.calc != null) {
+          model.calc()(t);
+        }
+        old_calc(t);
+        return null;
+      };
+      if (model.needsGui) {
+        model.addGui(model.mathScene.gui);
+      }
+      if (!this.mathScene.showingObjects) {
+        mathScene.create();
+      }
+      return null;
+    };
+
+    MarchingCubesModel.prototype.embedInScene = function(mathScene) {
+      var model;
+      model = this;
+      model.mathScene = mathScene;
+      model.embedObjects();
       return null;
     };
 
@@ -399,7 +429,7 @@
       return null;
     };
 
-    MarchingCubesModel.prototype.march_async = function(b, algorithm) {
+    MarchingCubesModel.prototype.march_async = function(b, algorithm, callback) {
       var blob, debug, e, f, mc, response, that, worker;
       if (algorithm == null) {
         algorithm = "marchingCubes";
@@ -448,6 +478,9 @@
             console.log("surface constructed");
             that.mathScene.scene.add(that.surface);
             console.log("surface embedded");
+            if (callback != null) {
+              callback();
+            }
           }
         } else {
           if (that.mathScene != null) {
@@ -455,6 +488,9 @@
             that.surface = new_surface;
             that.mathScene.scene.add(that.surface);
             that.mathScene.render();
+            if (callback != null) {
+              callback();
+            }
           }
         }
         return null;
